@@ -52,7 +52,7 @@ class RelationalObject implements JsonSerializable {
 	 *
 	 * @throws \Exception
 	 */
-	public function getObjectSerialization(): array {
+	public function getObjectSerialization() {
 		if ($this->object instanceof JsonSerializable) {
 			return $this->object->jsonSerialize();
 		} else {
