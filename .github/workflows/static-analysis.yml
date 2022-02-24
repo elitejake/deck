@@ -13,6 +13,7 @@ jobs:
       strategy:
           matrix:
               ocp-version: [ 'dev-master' ]
+              php-versions: ['7.4', '8.0', '8.1']
       name: Nextcloud ${{ matrix.ocp-version }}
       steps:
           - name: Checkout
@@ -20,7 +21,7 @@ jobs:
           - name: Set up php
             uses: shivammathur/setup-php@2.17.0
             with:
-                php-version: 7.4
+                php-version: {{ matrix.php-versions }}
                 tools: composer:v1
                 coverage: none
           - name: Install dependencies
