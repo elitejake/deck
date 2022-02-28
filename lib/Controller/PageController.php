@@ -34,12 +34,17 @@ use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Controller;
+use OCA\Deck\Db\CardMapper;
+use OCP\IURLGenerator;
+use \OCP\AppFramework\Http\RedirectResponse;
 
 class PageController extends Controller {
 	private $permissionService;
 	private $initialState;
 	private $configService;
 	private $eventDispatcher;
+	protected $cardMapper;
+	private $urlGenerator;
 
 	public function __construct(
 		$AppName,
@@ -47,7 +52,9 @@ class PageController extends Controller {
 		PermissionService $permissionService,
 		IInitialStateService $initialStateService,
 		ConfigService $configService,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
+		CardMapper $cardMapper,
+		IURLGenerator $urlGenerator
 		) {
 		parent::__construct($AppName, $request);
 
@@ -55,6 +62,8 @@ class PageController extends Controller {
 		$this->initialState = $initialStateService;
 		$this->configService = $configService;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->cardMapper = $cardMapper;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -84,5 +93,12 @@ class PageController extends Controller {
 		}
 
 		return $response;
+	}
+
+	public function deckUrlToCard($cardId) {
+		$boardId = $this->cardMapper->findBoardId($cardId);
+    $url = $this->urlGenerator->linkToRouteAbsolute('deck.page.index') . "#/board/$boardId/card/$cardId";
+
+		return new RedirectResponse($url);
 	}
 }

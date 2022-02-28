@@ -114,7 +114,7 @@ class DeckProvider implements IProvider {
 				'type' => 'highlight',
 				'id' => $event->getObjectId(),
 				'name' => $event->getObjectName(),
-				'link' => $this->deckUrl('/board/' . $event->getObjectId()),
+				'link' => $this->getUrlForBoard('/board/' . $event->getObjectId()),
 			];
 			$params['board'] = $board;
 		}
@@ -131,7 +131,7 @@ class DeckProvider implements IProvider {
 
 			if (array_key_exists('board', $subjectParams)) {
 				$archivedParam = $subjectParams['card']['archived'] ? 'archived/' : '';
-				$card['link'] = $this->deckUrl('/board/' . $subjectParams['board']['id'] . '/' . $archivedParam . 'card/' . $event->getObjectId());
+				$card['link'] = $this->getUrlForCard('/board/' . $subjectParams['board']['id'] . '/' . $archivedParam . 'card/' . $event->getObjectId(), $event->getObjectId());
 			}
 			$params['card'] = $card;
 		}
@@ -214,7 +214,7 @@ class DeckProvider implements IProvider {
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
 				'name' => $subjectParams[$paramName]['title'],
-				'link' => $this->deckUrl('/board/' . $subjectParams[$paramName]['id'] . '/'),
+				'link' => $this->getUrlForBoard('/board/' . $subjectParams[$paramName]['id'] . '/'),
 			];
 		}
 		return $params;
@@ -356,7 +356,11 @@ class DeckProvider implements IProvider {
 		return $params;
 	}
 
-	public function deckUrl($endpoint) {
+	public function getUrlForBoard($endpoint) {
 		return $this->urlGenerator->linkToRouteAbsolute('deck.page.index') . '#' . $endpoint;
+	}
+
+	public function getUrlForCard($endpoint, $cardId = NULL) {
+		return $this->urlGenerator->linkToRouteAbsolute('deck.page.index') . "deckUrlToCard/$cardId";
 	}
 }

@@ -25,6 +25,7 @@
 return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'page#deckUrlToCard', 'url' => '/deckUrlToCard/{cardId}', 'verb' => 'GET'],
 
 		// boards
 		['name' => 'board#index', 'url' => '/boards', 'verb' => 'GET'],

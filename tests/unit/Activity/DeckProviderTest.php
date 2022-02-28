@@ -145,14 +145,14 @@ class DeckProviderTest extends TestCase {
 		$this->assertEquals($app . '/' . $icon, $event->getIcon());
 	}
 
-	public function testDeckUrl() {
+	public function testGetUrlForBoard() {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRouteAbsolute')
 			->with('deck.page.index')
 			->willReturn('http://localhost/index.php/apps/deck/');
 		$this->assertEquals(
 			'http://localhost/index.php/apps/deck/#board/1/card/1',
-			$this->provider->deckUrl('board/1/card/1')
+			$this->provider->getUrlForBoard('board/1/card/1'),
 		);
 	}
 
